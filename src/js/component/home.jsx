@@ -1,26 +1,55 @@
-import React from "react";
+import React, { useState } from 'react';
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+function Home() {
+  const [todos, setTodos] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [total, setTotal] = useState(0);
 
-//create your first component
-const Home = () => {
-	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
-};
+  const handleInputCambio = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleAddTodo = (event) => {
+    if (event.key === 'Enter' && inputValue.trim() !== '') {
+      setTodos([...todos, inputValue]);
+      setInputValue('');
+      setTotal(total + 1);
+    }
+  };
+
+  const handleBorrarTodo = (index) => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+    setTotal(total - 1);
+  };
+
+  return (
+    <div className="todo-list-container">
+      <h1 className="todo-list-title">todos</h1>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleInputCambio}
+        onKeyPress={handleAddTodo}
+        placeholder="Add a new task"
+        className="todo-input"
+      />
+      <ul className="todo-items">
+        {todos.map((todo, index) => (
+          <li key={index} className="todo-item">
+            {todo}
+            <button onClick={() => handleBorrarTodo(index)} className="delete-button">
+              <i className="fa-solid fa-trash"></i>
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className="total">
+        {total} {total === 1 ? 'item left' : 'items left'}
+      </div>
+    </div>
+  );
+}
 
 export default Home;
