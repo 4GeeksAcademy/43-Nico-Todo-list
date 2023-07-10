@@ -35,16 +35,20 @@ function Home() {
         placeholder="Add a new task"
         className="todo-input"
       />
-      <ul className="todo-items">
-        {todos.map((todo, index) => (
-          <li key={index} className="todo-item">
-            {todo}
-            <button onClick={() => handleBorrarTodo(index)} className="delete-button">
-              <i className="fa-solid fa-trash"></i>
-            </button>
-          </li>
-        ))}
-      </ul>
+      {todos.length === 0 ? (
+        <p>No hay tareas</p>
+      ) : (
+        <ul className="todo-items">
+          {todos.map((todo, index) => (
+            <li key={index} className="todo-item">
+              {todo}
+              <button onClick={() => handleBorrarTodo(index)} className="delete-button">
+                <i className="fa-solid fa-trash"></i>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
       <div className="total">
         {total} {total === 1 ? 'item left' : 'items left'}
       </div>
